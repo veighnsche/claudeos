@@ -59,3 +59,8 @@ heimdall
 # Init binaries
 *_init
 minimal_tinyos_init
+
+# Veighnsche's Claude instructions artifacts
+.teams
+.questions
+.plans
