@@ -21,4 +21,6 @@ jobs:
 
     - name: Build kernel
       run: |
-        make -f Makefile.arm64
+        # Override PREFIX for Linux toolchain (Makefile defaults to aarch64-elf- for macOS)
+        make -f Makefile.arm64 PREFIX=aarch64-linux-gnu-
+
