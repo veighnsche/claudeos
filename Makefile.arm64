@@ -1,0 +1,58 @@
+# ARM64 Makefile for Android Emulator
+PREFIX = aarch64-elf-
+CC = $(PREFIX)gcc
+AS = $(PREFIX)as
+LD = $(PREFIX)ld
+OBJCOPY = $(PREFIX)objcopy
+OBJDUMP = $(PREFIX)objdump
+
+CFLAGS = -mcpu=cortex-a53 -nostdlib -nostartfiles -ffreestanding -g -O0
+CFLAGS += -Ikernel/include -Ikernel -Wall -Wextra
+ASFLAGS = -mcpu=cortex-a53 -g
+LDFLAGS = -T kernel/arch/arm64/linker.ld -nostdlib
+
+SOURCES_C = kernel/main.c \
+            kernel/memory.c \
+            kernel/event.c \
+            kernel/terminal.c \
+            kernel/filemanager.c \
+            kernel/home.c \
+            kernel/keyboard.c \
+            kernel/tcp.c \
+            kernel/http.c \
+            kernel/websocket.c \
+            kernel/fs.c \
+            kernel/image.c \
+            kernel/drivers/goldfish/fb.c \
+            kernel/drivers/virtio/gpu.c \
+            kernel/drivers/virtio/input.c \
+            kernel/drivers/virtio/net.c \
+            kernel/drivers/virtio/blk.c \
+            kernel/drivers/gic.c \
+            kernel/net/net.c \
+            kernel/font.c
+
+SOURCES_S = kernel/arch/arm64/boot.S \
+            kernel/arch/arm64/vectors.S
+
+OBJECTS = $(SOURCES_C:.c=.arm64.o) $(SOURCES_S:.S=.arm64.o)
+
+all: kernel64.bin
+
+kernel64.elf: $(OBJECTS)
+	$(LD) $(LDFLAGS) $^ -o $@
+	$(OBJDUMP) -D kernel64.elf > kernel64.dump
+
+kernel64.bin: kernel64.elf
+	$(OBJCOPY) -O binary $< $@
+
+%.arm64.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+%.arm64.o: %.S
+	$(CC) $(CFLAGS) -c $< -o $@
+
+clean:
+	rm -f $(OBJECTS) kernel64.elf kernel64.bin kernel64.dump
+
+.PHONY: all clean

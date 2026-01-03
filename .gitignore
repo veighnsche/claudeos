@@ -1,0 +1,61 @@
+# Build outputs
+*.bin
+*.elf
+*.o
+*.dump
+*.img
+
+# Object files in kernel directory
+kernel/**/*.o
+
+# Temporary/test files
+*.tar
+*.tar.md5
+*.gz
+*.cpio
+
+# macOS
+.DS_Store
+._*
+
+# IDE/Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Emulator scripts (user-specific paths)
+run_android.sh
+
+# Build directories
+build/
+empty_ramdisk/
+pmos_build/
+tinyos_initramfs/
+tinyos_minimal/
+
+# Temporary shell scripts
+RUN_*.sh
+FLASH_*.sh
+FIX_*.sh
+ANDROID_*.sh
+create_*.sh
+flash_*.sh
+make_*.sh
+
+# Debug/test markdown
+DEBUG_*.md
+DEPLOY_*.md
+FLASH_*.md
+
+# Python scripts in root (build helpers)
+/*.py
+!tools/*.py
+
+# Heimdall binary
+heimdall
+
+# Init binaries
+*_init
+minimal_tinyos_init
