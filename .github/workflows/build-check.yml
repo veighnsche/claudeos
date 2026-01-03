@@ -33,9 +33,9 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
 
-    - name: Setup Homebrew PATH
+    - name: Setup Homebrew env
       run: |
-        echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> $GITHUB_ENV
+        /opt/homebrew/bin/brew shellenv >> $GITHUB_ENV
         echo "/opt/homebrew/bin" >> $GITHUB_PATH
 
     - name: Build kernel (native macOS)
