@@ -26,15 +26,19 @@ jobs:
 
   build-macos:
     runs-on: [self-hosted, macOS, ARM64]
-    # SECURITY: Only run on push by repo owner to prevent untrusted code on self-hosted runner
-    if: github.event_name == 'push' && github.actor == 'veighnsche'
+    # SECURITY: Only run on push to prevent untrusted PR code from executing on self-hosted runner
+    if: github.event_name == 'push'
 
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
 
+    - name: Setup Homebrew PATH
+      run: |
+        echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> $GITHUB_ENV
+        echo "/opt/homebrew/bin" >> $GITHUB_PATH
+
     - name: Build kernel (native macOS)
       run: |
         # Uses default aarch64-elf- prefix from Makefile.arm64
         make -f Makefile.arm64
-
