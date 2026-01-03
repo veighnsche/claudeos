@@ -41,7 +41,7 @@ all: kernel64.bin
 
 kernel64.elf: $(OBJECTS)
 	$(LD) $(LDFLAGS) $^ -o $@
-	$(OBJDUMP) -D kernel64.elf > kernel64.dump
+	$(OBJDUMP) -d -j .text kernel64.elf > kernel64.dump
 
 kernel64.bin: kernel64.elf
 	$(OBJCOPY) -O binary $< $@
