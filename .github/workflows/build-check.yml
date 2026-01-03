@@ -7,7 +7,7 @@ on:
     branches: [ "master" ]
 
 jobs:
-  build:
+  build-linux:
     runs-on: ubuntu-latest
 
     steps:
@@ -23,4 +23,18 @@ jobs:
       run: |
         # Override PREFIX for Linux toolchain (Makefile defaults to aarch64-elf- for macOS)
         make -f Makefile.arm64 PREFIX=aarch64-linux-gnu-
+
+  build-macos:
+    runs-on: [self-hosted, macOS, ARM64]
+    # SECURITY: Only run on push by repo owner to prevent untrusted code on self-hosted runner
+    if: github.event_name == 'push' && github.actor == 'veighnsche'
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Build kernel (native macOS)
+      run: |
+        # Uses default aarch64-elf- prefix from Makefile.arm64
+        make -f Makefile.arm64
 
