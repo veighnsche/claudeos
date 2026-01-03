@@ -23,6 +23,7 @@ SOURCES_C = kernel/main.c \
             kernel/websocket.c \
             kernel/fs.c \
             kernel/image.c \
+            kernel/cursor.c \
             kernel/drivers/goldfish/fb.c \
             kernel/drivers/virtio/gpu.c \
             kernel/drivers/virtio/input.c \
